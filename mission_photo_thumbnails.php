@@ -11,6 +11,10 @@
   // image_url = full url to the image file on the application server
   // mission_photo_id = record id of the mission photo
 
+  // cloudfiles creds:
+  // userid: angelflightwest
+  // key: eca78b0ce406c0000e3ae8d342d4ccae
+
   $original_path = [Path to Cloudfiles container];
   $display_path = [Path to Cloudfiles container];
   $thumbnail_path = [Path to Cloudfiles container];
