@@ -1,0 +1,10 @@
+# define the runtime language
+runtime "php"
+
+# exec is the file that will be executed:
+exec "mission_photo_thumbnails.php"
+
+dir "vendor"
+
+set_env "OPENCLOUD_UID", "angelflightwest"
+set_env "OPENCLOUD_API_KEY", "eca78b0ce406c0000e3ae8d342d4ccae"

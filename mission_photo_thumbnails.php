@@ -7,26 +7,89 @@
   // Image types allowed: jpg, png, gif
   // Convert all images to .png
   //
+
   // Parameters passed
   // image_url = full url to the image file on the application server
   // mission_photo_id = record id of the mission photo
 
-  // cloudfiles creds:
-  // userid: angelflightwest
-  // key: eca78b0ce406c0000e3ae8d342d4ccae
+  /*
+  thubbard - cloudfiles creds:
+  userid: angelflightwest
+  key: eca78b0ce406c0000e3ae8d342d4ccae
+  */
+
+  /*
+  thubbard - these will be the output locations
 
   $original_path = [Path to Cloudfiles container];
   $display_path = [Path to Cloudfiles container];
   $thumbnail_path = [Path to Cloudfiles container];
+  */
+
+  require 'vendor/autoload.php';
+
+  use OpenCloud\Rackspace;
+
+  echo "Starting mission_photo_thumbnails at ".date('r')."\n";
+  echo "payload:";
+  $payload = getPayload();
+  print_r($payload);
+
+  $opencloud_uid = getenv('OPENCLOUD_UID');
+  $opencloud_api_key = getenv('OPENCLOUD_API_KEY');
+
+  $client = new Rackspace(Rackspace::US_IDENTITY_ENDPOINT, array(
+      'username' => $opencloud_uid,
+      'apiKey'   => $opencloud_api_key
+  ));
+
+  // Obtain an Object Store service object from the client.
+  $region = 'DFW';
+  $objectStoreService = $client->objectStoreService(null, $region);
+
+  // Get container list.
+  $containers = $objectStoreService->listContainers();
+  foreach ($containers as $container) {
+      /** @var $container OpenCloud\ObjectStore\Resource\Container  **/
+      printf("Container name: %s\n", $container->getName());
+  }
+
+  // 3. Get container.
+  $container = $objectStoreService->getContainer('public_files');
+
+  // 4. Set container metadata.
+  $containerMetadata = $container->getMetadata();
+
+  /** @var $container $containerMetadata OpenCloud\ObjectStore\Resource\ContainerMetadata **/
+  printf("Container author: %s\n", $containerMetadata->getProperty('author'));
+
+  $objects = $container->objectList();
+  foreach ($objects as $object) {
+      /** @var $object OpenCloud\ObjectStore\Resource\DataObject  **/
+      printf("Object name: %s\n", $object->getName());
+  }
 	
 	// Download image.
   $raw_image_content = file_get_contents($payload->image_url);
   $url = $payload->image_url;
   $file = substr($url, strrpos($url, '/'), strlen($url));
   $img = imagecreatefromstring($raw_image_content);
-     
-  $original_width = imagesx( $img );
+    
+  $original_width = imagesx( $img ); 
   $original_height = imagesy( $img );
+
+  /*
+  echo "original_width:";   
+  print_r($original_width);
+  print "\n";
+  echo "original_height:";  
+  print_r($original_height);
+  print "\n";
+  print getenv('OPENCLOUD_UID');
+  print "\n";
+  print getenv('OPENCLOUD_API_KEY');
+
+  */
 
 	$display_width = 250;
 	$thumb_width = 125;
@@ -54,15 +117,24 @@
   }
      
   // display
+  /*
+  //thubbard - out until the cloudfiles locations are determined
   $tmp_img = imagecreatetruecolor( $display_width, $display_height );
   imagecopyresized( $tmp_img, $img, 0, 0, 0, 0, $display_width, $display_height, $original_width, $original_height );
   imagepng( $tmp_img, "{$display_path}{$filename_only}" );
+  */
 
   // thumbnail
+  /*
+  //thubbard - out until the cloudfiles locations are determined
   $tmp_img = imagecreatetruecolor( $thumbnail_width, $thumbnail_height );
   imagecopyresampled( $tmp_img, $img, 0, 0, 0, 0, $thumbnail_width, $thumbnail_height, $original_width, $original_height );
   imagepng( $tmp_img, "{$thumbnail_path}{$filename_only}", 0 ); // 0 means no compression
-     
+  */
+
+
+
   // return an array with the file values to be stored
   // return array("filesize" => $filesize, "height" => $original_height, "width" => $original_width, "format" => $format);
   // This is done via a callback?
+
