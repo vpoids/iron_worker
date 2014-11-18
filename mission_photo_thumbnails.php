@@ -13,12 +13,6 @@
   // mission_photo_id = record id of the mission photo
 
   /*
-  thubbard - cloudfiles creds:
-  userid: angelflightwest
-  key: eca78b0ce406c0000e3ae8d342d4ccae
-  */
-
-  /*
   thubbard - these will be the output locations
 
   $original_path = [Path to Cloudfiles container];
@@ -70,8 +64,8 @@
   }
 	
 	// Download image.
-  $raw_image_content = file_get_contents($payload->image_url);
   $url = $payload->image_url;
+  $raw_image_content = file_get_contents($url);
   $file = substr($url, strrpos($url, '/'), strlen($url));
   $img = imagecreatefromstring($raw_image_content);
     
@@ -84,12 +78,8 @@
   print "\n";
   echo "original_height:";  
   print_r($original_height);
-  print "\n";
-  print getenv('OPENCLOUD_UID');
-  print "\n";
-  print getenv('OPENCLOUD_API_KEY');
-
   */
+  print_r($file);
 
 	$display_width = 250;
 	$thumb_width = 125;
@@ -131,10 +121,4 @@
   imagecopyresampled( $tmp_img, $img, 0, 0, 0, 0, $thumbnail_width, $thumbnail_height, $original_width, $original_height );
   imagepng( $tmp_img, "{$thumbnail_path}{$filename_only}", 0 ); // 0 means no compression
   */
-
-
-
-  // return an array with the file values to be stored
-  // return array("filesize" => $filesize, "height" => $original_height, "width" => $original_width, "format" => $format);
-  // This is done via a callback?
 
