@@ -41,32 +41,17 @@
   $region = 'DFW';
   $objectStoreService = $client->objectStoreService(null, $region);
 
-  // Get container list.
-  $containers = $objectStoreService->listContainers();
-  foreach ($containers as $container) {
-      /** @var $container OpenCloud\ObjectStore\Resource\Container  **/
-      printf("Container name: %s\n", $container->getName());
-  }
-
   // 3. Get container.
   $container = $objectStoreService->getContainer('public_files');
-
-  // 4. Set container metadata.
-  $containerMetadata = $container->getMetadata();
-
-  /** @var $container $containerMetadata OpenCloud\ObjectStore\Resource\ContainerMetadata **/
-  printf("Container author: %s\n", $containerMetadata->getProperty('author'));
-
-  $objects = $container->objectList();
-  foreach ($objects as $object) {
-      /** @var $object OpenCloud\ObjectStore\Resource\DataObject  **/
-      printf("Object name: %s\n", $object->getName());
-  }
+  
 	
-	// Download image.
+	// get elements from payload
   $url = $payload->image_url;
+  $mission_photo_id = $payload->mission_photo_id;
+
+  // Download image.
   $raw_image_content = file_get_contents($url);
-  $file = substr($url, strrpos($url, '/'), strlen($url));
+  //$file = substr($url, strrpos($url, '/'), strlen($url));
   $img = imagecreatefromstring($raw_image_content);
     
   $original_width = imagesx( $img ); 
@@ -78,8 +63,8 @@
   print "\n";
   echo "original_height:";  
   print_r($original_height);
-  */
   print_r($file);
+  */
 
 	$display_width = 250;
 	$thumb_width = 125;
@@ -105,20 +90,38 @@
 		$thumbnail_height = 84;
 
   }
-     
+
   // display
-  /*
-  //thubbard - out until the cloudfiles locations are determined
+  $localFileName  = "./{$mission_photo_id}.png";
+  $remoteFileName = "{$mission_photo_id}.png";
+
   $tmp_img = imagecreatetruecolor( $display_width, $display_height );
   imagecopyresized( $tmp_img, $img, 0, 0, 0, 0, $display_width, $display_height, $original_width, $original_height );
-  imagepng( $tmp_img, "{$display_path}{$filename_only}" );
-  */
+  imagepng( $tmp_img, $localFileName );
+
+  $fileData = fopen($localFileName, 'r');
+  $container->uploadObject($remoteFileName, $fileData);     
 
   // thumbnail
-  /*
-  //thubbard - out until the cloudfiles locations are determined
+  $localThumbFileName  = "./{$mission_photo_id}-thumb.png";
+  $remoteThumbFileName = "{$mission_photo_id}-thumb.png";
+
   $tmp_img = imagecreatetruecolor( $thumbnail_width, $thumbnail_height );
   imagecopyresampled( $tmp_img, $img, 0, 0, 0, 0, $thumbnail_width, $thumbnail_height, $original_width, $original_height );
-  imagepng( $tmp_img, "{$thumbnail_path}{$filename_only}", 0 ); // 0 means no compression
-  */
+  imagepng( $tmp_img, $localThumbFileName, 0 ); // 0 means no compression
+
+  $fileData = fopen($localThumbFileName, 'r');
+  $container->uploadObject($remoteThumbFileName, $fileData);     
+
+  // for testing that images were put in container
+  $objects = $container->objectList();
+  foreach ($objects as $object) {
+      printf("Object name: %s\n", $object->getName());
+  }
+
+
+
+
+
+
 

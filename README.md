@@ -17,6 +17,25 @@ curl -sS https://getcomposer.org/installer | php -d detect_unicode=Off
 php -d detect_unicode=Off composer.phar require rackspace/php-opencloud:dev-master
 ```
 
+##Image Manipulation (Display and Thumbnail)
+
+###Deploy the Worker to Iron.io
+
+```
+$ iron_worker upload mission_photo_thumbnails
+```
+
+Queue the worker from the command line:
+
+####Parameters
+- image_url: url to the image location
+- mission_photo_id: this is used to create the filename for the display and thumbnail images
+
+```
+iron_worker queue mission_photo_thumbnails -p '{"image_url":"http://fc04.deviantart.net/fs30/f/2008/164/9/f/Pretty_Sky_by_sererena.jpg","mission_photo_id":"1234"}'
+```
+
+
 ###Sample Image URLs:
 
 - http://fc04.deviantart.net/fs30/f/2008/164/9/f/Pretty_Sky_by_sererena.jpg
