@@ -40,3 +40,24 @@ iron_worker queue mission_photo_thumbnails -p '{"image_url":"http://fc04.deviant
 
 - http://fc04.deviantart.net/fs30/f/2008/164/9/f/Pretty_Sky_by_sererena.jpg
 
+
+##GeoCoding
+
+###Deploy the Worker to Iron.io
+
+```
+$ iron_worker upload geocoding
+```
+
+Queue the worker from the command line:
+
+####Parameters
+- origin_address
+- destination_address
+- mission_leg_id: this is used to create the filename for the display and thumbnail images
+
+```
+iron_worker queue geocoding -p '{"mission_leg_id":"1234"}'
+```
+
+

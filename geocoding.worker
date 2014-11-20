@@ -2,9 +2,9 @@
 runtime "php"
 
 # exec is the file that will be executed:
-exec "mission_photo_thumbnails.php"
+exec "geocoding.php"
 
 dir "vendor"
 
 set_env "OPENCLOUD_UID", "angelflightwest"
-set_env "OPENCLOUD_API_KEY", "see config file"
+#set_env "OPENCLOUD_API_KEY", "see config file for this and other values before deploying to iron.io"

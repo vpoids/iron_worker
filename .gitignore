@@ -1,2 +1,4 @@
 config_worker_env_vars.txt
 iron.json
+iron-travis.json
+iron-vpoids.json
