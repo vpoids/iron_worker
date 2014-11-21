@@ -27,7 +27,7 @@
   echo "Starting mission_photo_thumbnails at ".date('r')."\n";
   echo "payload:";
   $payload = getPayload();
-  print_r($payload);
+  //print_r($payload);
 
   $opencloud_uid = getenv('OPENCLOUD_UID');
   $opencloud_api_key = getenv('OPENCLOUD_API_KEY');

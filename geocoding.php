@@ -15,9 +15,25 @@
   // destination_address
   // mission_leg_id = record id of the mission leg
   
-  // Get directions
 
-  // set all below as env variable in .worker file
+  require 'vendor/autoload.php';
+  use OpenCloud\Rackspace;
+
+  // opencloud connect
+  $opencloud_uid = getenv('OPENCLOUD_UID');
+  $opencloud_api_key = getenv('OPENCLOUD_API_KEY');
+
+  $client = new Rackspace(Rackspace::US_IDENTITY_ENDPOINT, array(
+      'username' => $opencloud_uid,
+      'apiKey'   => $opencloud_api_key
+  ));
+  // Obtain an Object Store service object from the client.
+  $region = 'DFW';
+  $objectStoreService = $client->objectStoreService(null, $region);
+  // Get container.
+  $container = $objectStoreService->getContainer('public_files');
+
+  // get env vars for google and mysql (set in .worker file on upload of code package)
   $google_api_key = getenv('GOOGLE_API_KEY');
   $dbhost = getenv('DBHOST');
   $dbuser = getenv('DBUSER');
@@ -25,18 +41,12 @@
 
   // get elements from payload
   $payload = getPayload();
-  //$origin_address = $payload->origin_address;
-  //$destination_address = $payload->destination_address;
+  $origin_address = $payload->origin_address;
+  $destination_address = $payload->destination_address;
   $mission_leg_id = $payload->mission_leg_id;
 
-  // test
-  $origin_address = urlencode("10554 Ohio Ave,Los Angeles,CA 90024");
-  $destination_address = urlencode("3161 Donald Douglas Loop South,Santa Monica,CA,90405");  
-  $url = "https://maps.googleapis.com/maps/api/directions/json?origin=".$origin_address."&destination=".$destination_address."&key=".$google_api_key;
-  // end test
-
-  // thubbard
-  //$url = "https://maps.googleapis.com/maps/api/directions/json?origin=".urlencode($payload->origin_address)."&destination=".urlencode($payload->destination_address)."&key=".$google_api_key;
+  // Get directions
+  $url = "https://maps.googleapis.com/maps/api/directions/json?origin=".urlencode($origin_address)."&destination=".urlencode($destination_address)."&key=".$google_api_key;
   
   // I assume that curl is the best approach here?
   $ch = curl_init($url);
@@ -74,52 +84,48 @@
 
   mysql_close($conn);
 
-  // static maps for the origin
-  // store these image files to CloudFiles
-  // get the lat & long for the origin from the directions
-
-/* travis
+  // origin images
   $lat = $directions_json->routes[0]->legs[0]->start_location->lat;
   $long = $directions_json->routes[0]->legs[0]->start_location->lng;
   $lat_long = $lat.",".$long;
+
   $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=0";
+  $container->uploadObject("origin_streetview_0_".$mission_leg_id.".png", file_get_contents($url));
+
   $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=90"; 
-  $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=180";  
+  $container->uploadObject("origin_streetview_90_".$mission_leg_id.".png", file_get_contents($url));
+
+  $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=180"; 
+  $container->uploadObject("origin_streetview_180_".$mission_leg_id.".png", file_get_contents($url));
+
   $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=270"; 
-*/
-  // grab these using file_get_contents() ?
-  // save them to CloudFiles
-  // the filename would be composed using the $payload->mission_leg_id
-  // for example origin_streetview_90_xxx.png where xxx is the mission_leg_id
+  $container->uploadObject("origin_streetview_270_".$mission_leg_id.".png", file_get_contents($url));
 
-
-/* travis  
+  // destination images
   $lat = $directions_json->routes[0]->legs[0]->end_location->lat;
   $long = $directions_json->routes[0]->legs[0]->end_location->lng;
   $lat_long = $lat.",".$long;
   $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=0";
-  $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=90"; 
-  $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=180";  
-  $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=270";   
-*/
+  $container->uploadObject("destination_streetview_0_".$mission_leg_id.".png", file_get_contents($url));
 
-  // grab these using file_get_contents() ?
-  // save them to CloudFiles
-  // the filename would be composed using the $payload->mission_leg_id
-  // for example destination_streetview_90_xxx.png where xxx is the mission_leg_id
+  $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=90"; 
+  $container->uploadObject("destination_streetview_90_".$mission_leg_id.".png", file_get_contents($url));
+
+  $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=180";  
+  $container->uploadObject("destination_streetview_180_".$mission_leg_id.".png", file_get_contents($url));
+
+  $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=270";   
+  $container->uploadObject("destination_streetview_270_".$mission_leg_id.".png", file_get_contents($url));
 
   // Map of the route
-  // store these image files to CloudFiles
   // get the svg path of the route from the directions
-
-/* travis
   $svg_polyline = $directions_result->routes[0]->overview_polyline;
   $url = "https://maps.googleapis.com/maps/api/staticmap?size=400x400&path=weight:3%7Ccolor:red%7Cenc:".$svg_polyline;
-*/
+  $container->uploadObject("route_".$mission_leg_id.".png", file_get_contents($url));
 
-
-  // grab using file_get_contents() ?
-  // save it to CloudFiles
-  // the filename would be composed using the $payload->mission_leg_id
-  // for example route_xxx.png where xxx is the mission_leg_id
+  // for testing that images were put in container
+  $objects = $container->objectList();
+  foreach ($objects as $object) {
+      printf("Object name: %s\n", $object->getName());
+  }  
   
