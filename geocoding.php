@@ -91,15 +91,19 @@
 
   $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=0";
   $container->uploadObject("origin_streetview_0_".$mission_leg_id.".png", file_get_contents($url));
+  
 
   $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=90"; 
   $container->uploadObject("origin_streetview_90_".$mission_leg_id.".png", file_get_contents($url));
+  
 
   $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=180"; 
   $container->uploadObject("origin_streetview_180_".$mission_leg_id.".png", file_get_contents($url));
+  
 
   $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=270"; 
   $container->uploadObject("origin_streetview_270_".$mission_leg_id.".png", file_get_contents($url));
+  
 
   // destination images
   $lat = $directions_json->routes[0]->legs[0]->end_location->lat;
@@ -107,25 +111,30 @@
   $lat_long = $lat.",".$long;
   $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=0";
   $container->uploadObject("destination_streetview_0_".$mission_leg_id.".png", file_get_contents($url));
+  
 
   $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=90"; 
   $container->uploadObject("destination_streetview_90_".$mission_leg_id.".png", file_get_contents($url));
+  
 
   $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=180";  
   $container->uploadObject("destination_streetview_180_".$mission_leg_id.".png", file_get_contents($url));
+  
 
   $url = "https://maps.googleapis.com/maps/api/streetview?size=200x200&location=".$lat_long."&heading=270";   
   $container->uploadObject("destination_streetview_270_".$mission_leg_id.".png", file_get_contents($url));
 
+
   // Map of the route
   // get the svg path of the route from the directions
-  $svg_polyline = $directions_result->routes[0]->overview_polyline;
+  $svg_polyline = $directions_json->routes[0]->overview_polyline->points;
   $url = "https://maps.googleapis.com/maps/api/staticmap?size=400x400&path=weight:3%7Ccolor:red%7Cenc:".$svg_polyline;
   $container->uploadObject("route_".$mission_leg_id.".png", file_get_contents($url));
 
   // for testing that images were put in container
+  /*
   $objects = $container->objectList();
   foreach ($objects as $object) {
       printf("Object name: %s\n", $object->getName());
   }  
-  
+  */

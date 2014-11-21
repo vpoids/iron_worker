@@ -7,4 +7,4 @@ exec "mission_photo_thumbnails.php"
 dir "vendor"
 
 set_env "OPENCLOUD_UID", "angelflightwest"
-set_env "OPENCLOUD_API_KEY", "see config file"
+#set_env "OPENCLOUD_API_KEY", "see config file"

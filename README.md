@@ -60,4 +60,7 @@ Queue the worker from the command line:
 iron_worker queue geocoding -p '{"origin_address":"10554 Ohio Ave,Los Angeles,CA 90024","destination_address":"3161 Donald Douglas Loop South,Santa Monica,CA,90405","mission_leg_id":"1234"}'
 ```
 
+```
+ iron_worker queue geocoding -p '{"origin_address":"10 Northampton blvd, Stafford, VA, 22554","destination_address":"1600 Fedex Way, Landover, MD 20785","mission_leg_id":"112014"}'
+```
 
