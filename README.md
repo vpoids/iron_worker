@@ -12,19 +12,21 @@ http://dev.iron.io/worker/languages/php/
 #Queue a Worker using php:
 
 1. Download the iron_worker.phar file from: https://github.com/iron-io/iron_worker_php
+  - included in the repo for your convenience.
 
-2. Save the following php script or use in your own code:
+2. Example to queue the waiver_receipt worker:
 
 ```php
   <?php
   require("phar://iron_worker.phar");
-  /* If your PHP is less than 5.3,
-     comment out the line above and uncomment the two following lines */
-  //require("IronWorker.class.php");
-  //require("IronCore.class.php");
+
+  $payload = array(
+      'waiver_id' => 9,
+      'recipients' => 'travishubbard@gmail.com',
+  );
 
   $worker = new IronWorker();
-  $res = $worker->postTask("PHPWorker");
+  $res = $worker->postTask('waiver_receipt', $payload);
   print_r($res);
   ?>
 ```
