@@ -9,7 +9,21 @@ The instructions on the iron.io php page detail the steps necessary to install t
 
 http://dev.iron.io/worker/languages/php/
 
+The following code sample details how to queue a worker from a php script:
 
+```php
+  <?php
+  require("phar://iron_worker.phar");
+  /* If your PHP is less than 5.3,
+     comment out the line above and uncomment the two following lines */
+  //require("IronWorker.class.php");
+  //require("IronCore.class.php");
+
+  $worker = new IronWorker();
+  $res = $worker->postTask("PHPWorker");
+  print_r($res);
+  ?>
+```
 #Workers
 
 ###1. Image Manipulation (Display and Thumbnail)
