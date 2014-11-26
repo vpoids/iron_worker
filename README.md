@@ -16,9 +16,9 @@ config_worker_env_vars.txt contains the private keys used by the workers. When d
 $ iron_worker upload mission_photo_thumbnails
 ```
 
-Queue the worker from the command line:
+####Queue the worker from the command line:
 
-####Parameters
+#####Parameters
 - image_url: url to the image location
 - mission_photo_id: this is used to create the filename for the display and thumbnail images
 
