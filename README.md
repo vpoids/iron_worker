@@ -1,9 +1,6 @@
 iron_worker
 ===========
 
-#Iron worker projects
-
-
 ###Configuration:
 
 config_worker_env_vars.txt contains the private keys used by the workers. When deploying to iron.io, these keys are used to set environment variables for use by the workers.
@@ -11,9 +8,9 @@ config_worker_env_vars.txt contains the private keys used by the workers. When d
 
 #Workers
 
-##Image Manipulation (Display and Thumbnail)
+###Image Manipulation (Display and Thumbnail)
 
-###Deploy the Worker to Iron.io
+####Deploy the Worker to Iron.io
 
 ```
 $ iron_worker upload mission_photo_thumbnails
@@ -30,14 +27,14 @@ iron_worker queue mission_photo_thumbnails -p '{"image_url":"http://fc04.deviant
 ```
 
 
-###Sample Image URLs:
+####Sample Image URLs:
 
 - http://fc04.deviantart.net/fs30/f/2008/164/9/f/Pretty_Sky_by_sererena.jpg
 
 
-##GeoCoding
+###GeoCoding
 
-###Deploy the Worker to Iron.io
+####Deploy the Worker to Iron.io
 
 ```
 $ iron_worker upload geocoding
@@ -58,9 +55,9 @@ iron_worker queue geocoding -p '{"origin_address":"10554 Ohio Ave,Los Angeles,CA
  iron_worker queue geocoding -p '{"origin_address":"10 Northampton blvd, Stafford, VA, 22554","destination_address":"1600 Fedex Way, Landover, MD 20785","mission_leg_id":"112014"}'
 ```
 
-##Waiver Receipt
+###Waiver Receipt
 
-###Deploy the Worker to Iron.io
+####Deploy the Worker to Iron.io
 
 ```
 $ iron_worker upload waiver_receipt
