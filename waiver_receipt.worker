@@ -1,0 +1,27 @@
+# define the runtime language
+runtime "php"
+
+# exec is the file that will be executed:
+exec "waiver_receipt.php"
+
+dir "vendor"
+dir "tcpdf"
+file "signature-to-image.php"
+file "pdf_functions.php"
+#file "test.pdf"
+
+set_env "OPENCLOUD_UID", "angelflightwest"
+#set_env "OPENCLOUD_API_KEY", "see config file for this and other values before deploying to iron.io"
+
+#### REMOVE BEFORE PUSHING TO GITHUB
+
+set_env "OPENCLOUD_API_KEY", "eca78b0ce406c0000e3ae8d342d4ccae"
+
+set_env "DBHOST", "192.237.211.87";
+set_env "DBUSER", "dev_afids_iron";
+set_env "DBPASS", "108y5Y8MRz2BcZF";
+
+set_env "MAIL_API_KEY", "key-4ibtqy67z5-m3n2yrls8j5urnlh473t8"
+set_env "MAIL_DOMAIN", "vpoids.org"
+
+

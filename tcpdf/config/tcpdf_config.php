@@ -55,7 +55,9 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 	 * Installation path (/var/www/tcpdf/).
 	 * By default it is automatically calculated but you can also set it as a fixed string to improve performances.
 	 */
-	define ('K_PATH_MAIN', $k_path_main);
+	//define ('K_PATH_MAIN', $k_path_main);
+	// thubbard - set to the location on the worker instance
+	define ('K_PATH_MAIN', '/mnt/task/tcpdf/');
 	
 	// Automatic calculation for the following K_PATH_URL constant
 	if (isset($_SERVER['HTTP_HOST']) AND (!empty($_SERVER['HTTP_HOST']))) {
@@ -72,7 +74,9 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 	 * URL path to tcpdf installation folder (http://localhost/tcpdf/).
 	 * By default it is automatically calculated but you can also set it as a fixed string to improve performances.
 	 */
-	define ('K_PATH_URL', $k_path_url);
+
+	// thubbard 
+	define ('K_PATH_URL', 'http://localhost/tcpdf/');
 	
 	/**
 	 * path for PDF fonts

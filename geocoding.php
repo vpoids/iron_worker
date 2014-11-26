@@ -15,7 +15,7 @@
   // destination_address
   // mission_leg_id = record id of the mission leg
   
-
+  //--- OpenCloud setup ---
   require 'vendor/autoload.php';
   use OpenCloud\Rackspace;
 

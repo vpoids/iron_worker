@@ -167,7 +167,9 @@ class RWTCPDF extends TCPDF {
 function createPDF($htmltable, $reportTitle, $outputDest, $reportTemplate) {
 	global $l;
 
-	$templateFileName = "c:\\web\\iron_worker\\tcpdf\\config\\printTemplates.xml";
+	//$templateFileName = "c:\\web\\iron_worker\\tcpdf\\config\\printTemplates.xml";
+  $templateFileName = "/mnt/task/tcpdf/config/printTemplates.xml";
+  
 	$templateXML = simplexml_load_file($templateFileName);
 	if (!$templateXML) {
 		// throw an error

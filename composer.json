@@ -1,5 +1,6 @@
 {
     "require": {
-        "rackspace/php-opencloud": "dev-master"
+        "rackspace/php-opencloud": "dev-master",
+        "mailgun/mailgun-php": "~1.7.1"
     }
 }

@@ -17,6 +17,12 @@ curl -sS https://getcomposer.org/installer | php -d detect_unicode=Off
 php -d detect_unicode=Off composer.phar require rackspace/php-opencloud:dev-master
 ```
 
+3. Install phpmailer
+
+```ShellSession
+php -d detect_unicode=Off composer.phar require phpmailer/phpmailer:dev-master
+```
+
 ##Image Manipulation (Display and Thumbnail)
 
 ###Deploy the Worker to Iron.io
@@ -64,3 +70,20 @@ iron_worker queue geocoding -p '{"origin_address":"10554 Ohio Ave,Los Angeles,CA
  iron_worker queue geocoding -p '{"origin_address":"10 Northampton blvd, Stafford, VA, 22554","destination_address":"1600 Fedex Way, Landover, MD 20785","mission_leg_id":"112014"}'
 ```
 
+##Waiver Receipt
+
+###Deploy the Worker to Iron.io
+
+```
+$ iron_worker upload waiver_receipt
+```
+
+Queue the worker from the command line:
+
+####Parameters
+- waiver_id = $payload->waiver_id;
+- recipients = $payload->recipients;
+
+```
+iron_worker queue waiver_receipt -p '{"waiver_id":14,"recipients":"w.travis.hubbard@gmail.com"}'
+```
