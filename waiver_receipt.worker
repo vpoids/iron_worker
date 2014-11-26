@@ -8,11 +8,11 @@ dir "vendor"
 dir "tcpdf"
 file "signature-to-image.php"
 file "pdf_functions.php"
-#file "test.pdf"
 
 set_env "OPENCLOUD_UID", "angelflightwest"
 #set_env "OPENCLOUD_API_KEY", "see config file for this and other values before deploying to iron.io"
 
 #### REMOVE BEFORE PUSHING TO GITHUB
+
 
 

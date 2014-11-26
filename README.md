@@ -3,25 +3,13 @@ iron_worker
 
 #Iron worker projects
 
-##Getting Started
 
-1. Install composure:
+###Configuration:
 
-```ShellSession
-curl -sS https://getcomposer.org/installer | php -d detect_unicode=Off
-```
+config_worker_env_vars.txt contains the private keys used by the workers. When deploying to iron.io, these keys are used to set environment variables for use by the workers.
 
-2. Install php-opencloud
 
-```ShellSession
-php -d detect_unicode=Off composer.phar require rackspace/php-opencloud:dev-master
-```
-
-3. Install phpmailer
-
-```ShellSession
-php -d detect_unicode=Off composer.phar require phpmailer/phpmailer:dev-master
-```
+#Workers
 
 ##Image Manipulation (Display and Thumbnail)
 
@@ -81,9 +69,29 @@ $ iron_worker upload waiver_receipt
 Queue the worker from the command line:
 
 ####Parameters
-- waiver_id = $payload->waiver_id;
-- recipients = $payload->recipients;
+- waiver_id: id of the waiver, used as lookup to pull the data used for waiver signatures, etc.
+- recipients: comma delimited list of email addresses of those that should receive the waiver
 
 ```
 iron_worker queue waiver_receipt -p '{"waiver_id":14,"recipients":"w.travis.hubbard@gmail.com"}'
+```
+
+####Development Notes:
+
+1. Install composure:
+
+```ShellSession
+curl -sS https://getcomposer.org/installer | php -d detect_unicode=Off
+```
+
+2. Install php-opencloud
+
+```ShellSession
+php -d detect_unicode=Off composer.phar require rackspace/php-opencloud:dev-master
+```
+
+3. Install the Mialgun php library
+
+```ShellSession
+php -d detect_unicode=Off composer.phar require mailgun/mailgun-php:~1.7.1
 ```

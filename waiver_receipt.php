@@ -313,6 +313,7 @@ require 'vendor/autoload.php';
     exit;
   }
   $email_body = mysql_fetch_assoc($email_body_obj);
+  
   $sender_name = $email_body["sender_name"];
   $sender_email = $email_body["sender_email"];
   $html_body = $email_body["body"];
