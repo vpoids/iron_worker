@@ -10,7 +10,7 @@ config_worker_env_vars.txt contains the private keys used by the workers. When d
 
 ###1. Image Manipulation (Display and Thumbnail)
 
-####Deploy the Worker to Iron.io
+####Deploy the Worker to Iron.io:
 
 ```
 $ iron_worker upload mission_photo_thumbnails
@@ -34,15 +34,15 @@ iron_worker queue mission_photo_thumbnails -p '{"image_url":"http://fc04.deviant
 
 ###2. GeoCoding
 
-####Deploy the Worker to Iron.io
+####Deploy the Worker to Iron.io:
 
 ```
 $ iron_worker upload geocoding
 ```
 
-Queue the worker from the command line:
+####Queue the worker from the command line:
 
-####Parameters
+#####Parameters
 - origin_address
 - destination_address
 - mission_leg_id: this is used to create the filename for the display and thumbnail images
@@ -57,15 +57,15 @@ iron_worker queue geocoding -p '{"origin_address":"10554 Ohio Ave,Los Angeles,CA
 
 ###3. Waiver Receipt
 
-####Deploy the Worker to Iron.io
+####Deploy the Worker to Iron.io:
 
 ```
 $ iron_worker upload waiver_receipt
 ```
 
-Queue the worker from the command line:
+####Queue the worker from the command line:
 
-####Parameters
+#####Parameters
 - waiver_id: id of the waiver, used as lookup to pull the data used for waiver signatures, etc.
 - recipients: comma delimited list of email addresses of those that should receive the waiver
 
