@@ -5,6 +5,10 @@ iron worker
 
 The file config_worker_env_vars.txt contains the private keys used by the workers. When deploying to iron.io, the keys contained in this file are used to set environment variables for use by the workers.
 
+The instructions on the iron.io php page detail the steps necessary to install the iron_worker CLI, and steps required to deploy a worker to the service:
+
+http://dev.iron.io/worker/languages/php/
+
 
 #Workers
 
@@ -27,7 +31,7 @@ $ iron_worker queue mission_photo_thumbnails -p '{"image_url":"http://fc04.devia
 ```
 
 
-#####Sample Image URLs:
+#####Sample Image URL:
 
 - http://fc04.deviantart.net/fs30/f/2008/164/9/f/Pretty_Sky_by_sererena.jpg
 
